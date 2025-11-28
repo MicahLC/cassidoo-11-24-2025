@@ -23,10 +23,11 @@ namespace cassidoo_11_24_2025
 		{
 		}
 	}
-
+	/// <summary>
+	/// sort by start time ascending, then end time ascending
+	/// </summary>
 	internal class TaskComparer : IComparer<MealTask>
 	{
-		/// sort by start time ascending, then end time ascending
 		int IComparer<MealTask>.Compare(MealTask? x, MealTask? y)
 		{
 			ArgumentNullException.ThrowIfNull(x);
