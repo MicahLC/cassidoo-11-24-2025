@@ -18,6 +18,10 @@ namespace cassidoo_11_24_2025
 	{
 		public int Count = count;
 		public string[] ChosenTasks = chosen;
+
+		public MealPlan(List<MealTask> tasks) : this(tasks.Count, [.. tasks.Select(m => { return m.Name; })])
+		{
+		}
 	}
 
 	internal class TaskComparer : IComparer<MealTask>
@@ -57,6 +61,7 @@ namespace cassidoo_11_24_2025
 				int contained = 0;
 				for (int j = 0; j < meals.Length; ++j)
 				{
+					if (j == i) { continue; }
 					if (meals[j].StartTime >= meals[i].Endtime)
 					{
 						// we've looked at enough elements
@@ -81,8 +86,22 @@ namespace cassidoo_11_24_2025
 			}
 
 
+			List<MealTask> selectedTasks = [];
+			int nextStartTime = -1;
+			for (int i = 0; i < meals.Length; ++i)
+			{
+				if (ignoreTaskIndices.Contains(i))
+				{
+					continue;
+				}
+				if (meals[i].StartTime >= nextStartTime)
+				{
+					selectedTasks.Add(meals[i]);
+					nextStartTime = meals[i].Endtime;
+				}
+			}
 
-
+			return new MealPlan(selectedTasks);
 
 			/*int LAST_START_TIME = meals[^1].StartTime;
 			int nextStartTime = -1;
@@ -111,9 +130,9 @@ namespace cassidoo_11_24_2025
 				// we have a new, better solution
 				potentialSolutionCount = selectedTasks.Count;
 				solutionArray = [.. selectedTasks.Select(m => { return m.Name; })];
-			}*/
+			}
 
-			return new MealPlan(0, []);
+			return new MealPlan(0, []); */
 		}
 	}
 }
