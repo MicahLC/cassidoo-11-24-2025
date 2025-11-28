@@ -54,14 +54,14 @@ namespace cassidoo_11_24_2025
 			// sort the meals by start and end time.
 			Array.Sort(meals, new TaskComparer());
 
-			// store the index of any task that completely contains the start and end time of 2 other tasks, and we won't use them
+			// store the index of any task that completely contains the start and end time of at least one other task. we won't use them
 			HashSet<int> ignoreTaskIndices = [];
 			for (int i = 0; i < meals.Length; ++i)
 			{
-				int contained = 0;
 				for (int j = 0; j < meals.Length; ++j)
 				{
 					if (j == i) { continue; }
+					if (ignoreTaskIndices.Contains(j)) { continue; }
 					if (meals[j].StartTime >= meals[i].Endtime)
 					{
 						// we've looked at enough elements
@@ -69,23 +69,13 @@ namespace cassidoo_11_24_2025
 					}
 					if (meals[j].StartTime >= meals[i].StartTime && meals[j].Endtime <= meals[i].Endtime)
 					{
-						Debug.WriteLine($"Task {i} ({meals[i].Name}) contains task {j} ({meals[j].Name})");
-						++contained;
-						if (contained > 1)
-						{
-							Debug.WriteLine($"Task {i} ({meals[i].Name}) contains at least 2 tasks, adding it to ignore set.");
-							ignoreTaskIndices.Add(i);
-							break;
-						}
+						ignoreTaskIndices.Add(i);
+						break;
 					}
 				}
 			}
-			if (ignoreTaskIndices.Count == 0)
-			{
-				Debug.WriteLine("No indices to be ignored.");
-			}
 
-
+			// now walk through and greedily grab tasks that we're not ignoring and that don't overlap with a previous task.
 			List<MealTask> selectedTasks = [];
 			int nextStartTime = -1;
 			for (int i = 0; i < meals.Length; ++i)
@@ -102,37 +92,6 @@ namespace cassidoo_11_24_2025
 			}
 
 			return new MealPlan(selectedTasks);
-
-			/*int LAST_START_TIME = meals[^1].StartTime;
-			int nextStartTime = -1;
-
-			int potentialSolutionCount = 0;
-			string[] solutionArray = [];
-
-			Stack<int> decisionPoint = new();
-			List<MealTask> selectedTasks = [];
-			for(int i = 0; i < meals.Length; ++i)
-			{
-				if (meals[i].StartTime >= nextStartTime)
-				{
-					// decisionPoint.Push(meals[i]);
-					selectedTasks.Add(meals[i]);
-					nextStartTime = meals[i].Endtime;
-				}
-				else
-				{
-					decisionPoint.Push(i);
-				}
-			}
-			// selectedTasks now contains a potential solution
-			if (selectedTasks.Count > potentialSolutionCount)
-			{
-				// we have a new, better solution
-				potentialSolutionCount = selectedTasks.Count;
-				solutionArray = [.. selectedTasks.Select(m => { return m.Name; })];
-			}
-
-			return new MealPlan(0, []); */
 		}
 	}
 }

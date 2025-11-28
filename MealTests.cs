@@ -52,7 +52,7 @@ namespace cassidoo_11_24_2025
                 new MealTask("e", 3, 8)
             ]);
             plan.Count.Should().Be(3);
-            plan.ChosenTasks.Should().BeEquivalentTo(["a", "b", "c"]);
+            plan.ChosenTasks.Should().BeEquivalentTo(["d", "b", "c"]);
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace cassidoo_11_24_2025
                 new MealTask("e", 8, 10)
             ]);
             plan.Count.Should().Be(3);
-            plan.ChosenTasks.Should().BeEquivalentTo(["c", "d", "e"]);
+            plan.ChosenTasks.Should().BeEquivalentTo(["a", "d", "e"]);
         }
     }
 }
