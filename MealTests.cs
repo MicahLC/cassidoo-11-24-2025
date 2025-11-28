@@ -68,5 +68,14 @@ namespace cassidoo_11_24_2025
             plan.Count.Should().Be(3);
             plan.ChosenTasks.Should().BeEquivalentTo(["a", "d", "e"]);
         }
+
+        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        public void TestThrow()
+        {
+            MealScheduler.MaxMealPrepTasks([
+                null,
+                new MealTask("a", 1, 2)
+            ]);
+        }
     }
 }
