@@ -40,5 +40,19 @@ namespace cassidoo_11_24_2025
             plan.Count.Should().Be(3);
             plan.ChosenTasks.Should().BeEquivalentTo(["Make Cookies", "Bake Bread", "Bake Rolls"]);
         }
+
+        [TestMethod]
+        public void TestDoubleOverlaps()
+        {
+            MealPlan plan = MealScheduler.MaxMealPrepTasks([
+                new MealTask("a", 1, 4),
+                new MealTask("b", 4, 7),
+                new MealTask("c", 7, 10),
+                new MealTask("d", 2, 3),
+                new MealTask("e", 3, 8)
+            ]);
+            plan.Count.Should().Be(3);
+            plan.ChosenTasks.Should().BeEquivalentTo(["a", "b", "c"]);
+        }
     }
 }
