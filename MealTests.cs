@@ -54,5 +54,19 @@ namespace cassidoo_11_24_2025
             plan.Count.Should().Be(3);
             plan.ChosenTasks.Should().BeEquivalentTo(["a", "b", "c"]);
         }
+
+        [TestMethod]
+        public void TestTwoLongThreeShort()
+        {
+            MealPlan plan = MealScheduler.MaxMealPrepTasks([
+                new MealTask("a", 1, 5),
+                new MealTask("b", 5, 9),
+                new MealTask("c", 2, 6),
+                new MealTask("d", 6, 7),
+                new MealTask("e", 8, 10)
+            ]);
+            plan.Count.Should().Be(3);
+            plan.ChosenTasks.Should().BeEquivalentTo(["c", "d", "e"]);
+        }
     }
 }
