@@ -22,6 +22,6 @@ maxMealPrepTasks(tasks)
 ```
 
 ## Solution
-First, we can remove any tasks that contain within their timebounds 2 or more other tasks.
-
-Once we've done that, we can greedily grab tasks that don't overlap and call it good.
+First step is to sort by start time ascending, then end time ascending.
+Then, we can remove any tasks that contain within their timebounds another task. Why select a task that goes from 4-8, for instance, if there's a task that goes 5-7? Or 5-6?
+Once we've done that, given our sort, we can greedily grab tasks that don't overlap and call it good.
